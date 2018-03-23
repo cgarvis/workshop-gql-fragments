@@ -4,15 +4,17 @@ import gql from 'graphql-tag'
 import { Header } from 'semantic-ui-react'
 import withData from '../lib/withData'
 
+import ShortPost from './short-post'
+
 const map = (arr, fn) => arr ? arr.map(fn) : []
 
 const RecentPosts = ({ data: { loading, posts = {} } }) => (
   <div>
     <Header as="h2">Recent Posts</Header>
 
-    <ul>
-      { map(posts.items, p => <li>{ p.title }</li>) }
-    </ul>
+    <div>
+      { map(posts.items, p => <ShortPost key={p.id} post={p} />) }
+    </div>
   </div>
 )
 
@@ -21,10 +23,12 @@ const recentPostsQuery = gql`
     posts {
       items {
         id
-        title
+        ...ShortPost
       }
     }
   }
+
+  ${ShortPost.fragments.Post}
 `
 
 const enhance = compose(
