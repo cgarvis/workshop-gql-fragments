@@ -1,0 +1,42 @@
+type Comment {
+  id: ID!
+  createdAt: String
+  post: Post
+  author: User
+  body: String
+}
+
+type CommentConnection {
+  items: [Comment]
+  nextToken: String
+}
+
+type Post {
+  id: ID!
+  createdAt: String
+  author: User
+  title: String!
+  body: String
+  comments: [Comment]
+}
+
+type PostConnection {
+  items: [Post]
+  nextToken: String
+}
+
+type Query {
+  posts(fist: Int, after: String): PostConnection
+}
+
+type User {
+  id: ID!
+  firstName: String
+  lastName: String
+  email: String
+  joinedAt: String
+}
+
+schema {
+  query: Query
+}
